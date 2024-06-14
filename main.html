@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group 7 Project Proposal</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="container my-4">
+        <div class="text-center mb-4">
+            <h1 class="display-4">Group 7 Project Proposal</h1>
+        </div>
+
+        <section>
+            <h2 class="mb-3">Group</h2>
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Proposal Contributions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Yuval Mazor</b></td>
+                        <td>Methods, Problem Definition, Data Description</td>
+                    </tr>
+                    <tr>
+                        <td><b>Ruohan Feng</b></td>
+                        <td>Background and Data Description</td>
+                    </tr>
+                    <tr>
+                        <td><b>Jianwei Jia</b></td>
+                        <td>Potential Results and Discussion</td>
+                    </tr>
+                    <tr>
+                        <td><b>Wei-Hsing Huang</b></td>
+                        <td>Methods, Data pre-processing</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2 class="mt-4 mb-3">Problem Definition:</h2>
+            <p>
+                Michel et. al (2011) states insights based on fMRI data suffer from the “curse of dimensionality” due to the size of the data. Dimensionality reduction is needed, but univariate feature selection cannot be used due to the spatial structure of the data and the multivariate nature of the signal. In analysis of fMRI data, meaningful insights should be gleaned while reducing the size of the dataset.
+            </p>
+        </section>
+
+        <section>
+            <h2 class="mt-4 mb-3">Background and Literature Review:</h2>
+            <p>
+                The following study investigates how prior knowledge and expectations influence perceptual judgments in human subjects during a discrimination task. The researchers assume prior knowledge influences perception by imposing contextual constraints on sensory inputs, which enhances the speed and accuracy of detecting stimuli (Dunovan & Wheeler, 2018). This is observed in fMRI studies on category-selective regions of the inferior temporal cortex (Tremel & Wheeler, 2015).
+            </p>
+            <div class="text-center">
+                <p class="font-weight-bold">Table 1</p>
+                <p class="font-italic">Experimental Design from Dunovan & Wheeler (2018). Each trial condition is depicted along with the breakdown of the cues in each trial.</p>
+                <img src="./public/1.png" class="img-fluid" alt="Experimental Design from Dunovan & Wheeler (2018)">
+            </div>
+        </section>
+
+        <section>
+            <h2 class="mt-4 mb-3">Dataset Description:</h2>
+            <p>
+                19 participants completed 600 trials (five runs of 120 trials); each run resulted in 787 medical 2D images which were converted into 3D datasets. The AFNI (Analysis of Functional Neuroimages; Cox, 1996) data is composed of two files (per trial per participant) containing the voxel numerical values, spatial characteristics of each voxel, and statistical information for each sub-brick. We will merge the files into the NIFTI file which encapsulates both metadata and the actual image data as the final dataset for machine learning in Python.
+            </p>
+            <div class="text-center">
+                <p class="font-weight-bold">Figure 1</p>
+                <p class="font-italic">Experimental Design from Dunovan & Wheeler (2018). Each trial condition is depicted along with the breakdown of the cues in each trial.</p>
+                <img src="./public/2.jpg" class="img-fluid" alt="Experimental Design from Dunovan & Wheeler (2018)">
+            </div>
+        </section>
+
+        <section>
+            <h2 class="mt-4 mb-3">Methods:</h2>
+            <p>
+                We analyzed the fMRI imaging and NIFTI data corresponding to experimental metadata. The .HEAD files and .BRIK files were converted into a pre-processable form using AFNI and then merged into the existing NIFTI files using pandas.
+            </p>
+            <div class="text-center">
+                <img src="./public/3.png" class="img-fluid" alt="Methods - Image 1">
+            </div>
+            <div class="text-center">
+                <img src="./public/4.png" class="img-fluid" alt="Methods - Image 2">
+            </div>
+            <ul>
+                <li><b>Unsupervised and Supervised learning methods</b>
+                    <ul>
+                        <li>Unsupervised – K-Means, GMM, DBSCAN</li>
+                        <li>Supervised learning method for predicting the results
+                            <ul>
+                                <li>RNN: RNNs are highly effective for processing and analyzing dynamic medical images for time series analysis.</li>
+                                <li>Transformer: Compared to RNN, transformer uses a self-attention mechanism that can more effectively handle long-range dependencies, while RNNs may lose information or face vanishing gradients in long sequences.</li>
+                                <li>CNN: Even though CNN is not the best candidate for time series analysis, it is powerful for image tasks. Therefore, we will also apply CNN to our project and compare the performance between CNN, RNN, and transformer.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="mt-4 mb-3">Potential Results and Discussion:</h2>
+            <ul>
+                <li><b>Quantitative Metrics</b>
+                    <ul>
+                        <li>Accuracy</li>
+                        <li>Recall</li>
+                        <li>Precision</li>
+                        <li>F1 score</li>
+                    </ul>
+                </li>
+                <li><b>Project Goals</b>
+                    <ul>
+                        <li>Confirm what areas of the ITC are activated during the study</li>
+                        <li>See if we can predict what image was being viewed from the changes in brain activation</li>
+                        <li>Investigate the neural signals corresponding to the subjects' expectations during the pre- and post-sensory stages of decision-making</li>
+                    </ul>
+                </li>
+                <li><b>Expected Results</b>
+                    <ul>
+                        <li>Expect brain activation results to align with scientific literature</li>
+                        <li>Find the corresponding brain activity during the pre- and post-sensory stages of decision-making</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="mt-4 mb-3">References</h2>
+            <ul>
+                <li class="ml-4">
+                    Cox, R. W., & Jesmanowicz, A. (1999). Real-time 3D image registration for functional MRI. <i>Magnetic Resonance in Medicine, 42</i>: 1014–1018.
+                </li>
+                <li class="ml-4">
+                    Dunovan, K., & Wheeler, M. E. (2018). Computational and neural signatures of pre and post-sensory expectation bias in inferior temporal cortex. <i>Scientific Reports, 8</i>(1), 13256. <a href="https://doi.org/10.1038/s41598-018-31678-x">https://doi.org/10.1038/s41598-018-31678-x</a>
+                </li>
+                <li class="ml-4">
+                    Michel, Vincent, et al. (2011). “A Supervised Clustering Approach for Fmri-Based Inference of Brain States.” <i>Pattern Recognition</i>, Pergamon, <a href="https://www.sciencedirect.com/science/article/pii/S0031320311001439">https://www.sciencedirect.com/science/article/pii/S0031320311001439</a>
+                </li>
+                <li class="ml-4">
+                    Mwangi, B., Tian, T. S., & Soares, J. C. (2014). A review of feature reduction techniques in neuroimaging. Retrieved from <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4040248/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4040248/</a>
+                </li>
+                <li class="ml-4">
+                    Tremel, J. J., & Wheeler, M. E. (2015). Content-specific evidence accumulation in inferior temporal cortex during perceptual decision-making. <i>NeuroImage, 109</i>, 35–49. <a href="https://doi.org/10.1016/j.neuroimage.2014.12.072">https://doi.org/10.1016/j.neuroimage.2014.12.072</a>
+                </li>
+            </ul>
+ 
+        </section>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
