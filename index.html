@@ -44,7 +44,7 @@
         </section>
 
         <section>
-            <h2 class="mt-4 mb-3">Problem Definition:</h2>
+            <h2 class="mt-4 mb-3">Problem Definition</h2>
             <p>
                 Michel et. al (2011) states insights based on fMRI data suffer from the “curse of dimensionality” due to the size of the data. Dimensionality reduction is needed, but univariate feature selection cannot be used due to the spatial structure of the data and the multivariate nature of the signal. In analysis of fMRI data, meaningful insights should be gleaned while reducing the size of the dataset.
             </p>
@@ -63,7 +63,7 @@
         </section>
 
         <section>
-            <h2 class="mt-4 mb-3">Dataset Description:</h2>
+            <h2 class="mt-4 mb-3">Dataset Description</h2>
             <p>
                 19 participants completed 600 trials (five runs of 120 trials); each run resulted in 787 medical 2D images which were converted into 3D datasets. The AFNI (Analysis of Functional Neuroimages; Cox, 1996) data is composed of two files (per trial per participant) containing the voxel numerical values, spatial characteristics of each voxel, and statistical information for each sub-brick. We will merge the files into the NIFTI file which encapsulates both metadata and the actual image data as the final dataset for machine learning in Python.
             </p>
@@ -75,7 +75,7 @@
         </section>
 
         <section>
-            <h2 class="mt-4 mb-3">Methods:</h2>
+            <h2 class="mt-4 mb-3">Methods</h2>
             <p>
                 We analyzed the fMRI imaging and NIFTI data corresponding to experimental metadata. The .HEAD files and .BRIK files were converted into a pre-processable form using AFNI and then merged into the existing NIFTI files using pandas.
             </p>
@@ -102,7 +102,7 @@
         </section>
 
         <section>
-            <h2 class="mt-4 mb-3">Potential Results and Discussion:</h2>
+            <h2 class="mt-4 mb-3">Potential Results and Discussion</h2>
             <ul>
                 <li><b>Quantitative Metrics</b>
                     <ul>
@@ -126,6 +126,53 @@
                     </ul>
                 </li>
             </ul>
+        </section>
+
+        <!-- time line style code -->
+        <section>
+            <h2 class="mt-4 mb-3">Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">1. Prepartion and Survey <br> (Project Proposal)</h3>
+                        <p class="timeline-date">May 24 - June 14, 2024</p>
+                        <p>Initial meeting to discuss FMRI project data access, goals, timeline, and responsibilities.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">2. Data Collection and Initial Data Preprocess</h3>
+                        <p class="timeline-date">June 15, 2024 - June 24, 2024</p>
+                        <p>Collecting and organizing the FMRI data from various sources.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">3. Initial Model Construction and Training <br> (Midpoint Report)</h3>
+                        <p class="timeline-date">June 25, 2024 - July 03, 2024</p>
+                        <p>Collecting and organizing the FMRI data from various sources.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">4. Advanced Data Process, Model Construction and Training</h3>
+                        <p class="timeline-date">July 04, 2024 - July 14, 2024</p>
+                        <p>Cleaning and preprocessing the data for analysis.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon"></div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">5. Model Improvement and Evaluation <br> (Final Report)</h3>
+                        <p class="timeline-date">July 15, 2024 - July 23, 2024</p>
+                        <p>Training machine learning models on the preprocessed data.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section>
