@@ -29,15 +29,15 @@
                     </tr>
                     <tr>
                         <td><b>Ruohan Feng</b></td>
-                        <td>Background and Data Description</td>
+                        <td>Background and Data Description; Data preprocessing</td>
                     </tr>
                     <tr>
                         <td><b>Jianwei Jia</b></td>
-                        <td>Potential Results and Discussion</td>
+                        <td>Potential Results and Discussion; Data preprocessing</td>
                     </tr>
                     <tr>
                         <td><b>Wei-Hsing Huang</b></td>
-                        <td>Methods, Data pre-processing</td>
+                        <td>Methods, Data processing</td>
                     </tr>
                 </tbody>
             </table>
@@ -46,14 +46,14 @@
         <section>
             <h2 class="mt-4 mb-3">Problem Definition</h2>
             <p>
-                Michel et. al (2011) states insights based on fMRI data suffer from the “curse of dimensionality” due to the size of the data. Dimensionality reduction is needed, but univariate feature selection cannot be used due to the spatial structure of the data and the multivariate nature of the signal. In analysis of fMRI data, meaningful insights should be gleaned while reducing the size of the dataset.
+                The following study investigates how prior knowledge and expectations influence perceptual judgments in human subjects during a discrimination task. The researchers assume prior knowledge influences perception by imposing contextual constraints on sensory inputs, which enhances the speed and accuracy of detecting stimuli (Dunovan & Wheeler, 2018). This is observed in fMRI studies on category-selective regions of the inferior temporal cortex (Tremel & Wheeler, 2015). Our aim in the current study is to use machine learning algorithms to observe if prior knowledge influences people’s decision-making in response to subsequent stimuli separately for hourse and face image.
             </p>
         </section>
 
         <section>
             <h2 class="mt-4 mb-3">Background and Literature Review:</h2>
-            <p>
-                The following study investigates how prior knowledge and expectations influence perceptual judgments in human subjects during a discrimination task. The researchers assume prior knowledge influences perception by imposing contextual constraints on sensory inputs, which enhances the speed and accuracy of detecting stimuli (Dunovan & Wheeler, 2018). This is observed in fMRI studies on category-selective regions of the inferior temporal cortex (Tremel & Wheeler, 2015).
+            <p> The data are from a study developed by Dunovan & Wheeler (2018), which investigates the same research question but with a different approach. Previous research found indirect evidence for top-down predictions in the visual cortex, demonstrating that the absence of an anticipated stimulus triggered a stronger response than seeing the anticipated stimulus itself (Kok et al., 2014). However, other studies found that expected faces elicited a larger stimulus-evoked response than unexpected ones (Bell et al., 2016; Tremel et al., 2015). Thus, the current study would follow the same research questions as the previous articles to investigate if the prior expectations could enhance the response to anticipated stimuli.
+                
             </p>
             <div class="text-center">
                 <p class="font-weight-bold">Table 1</p>
@@ -65,7 +65,7 @@
         <section>
             <h2 class="mt-4 mb-3">Dataset Description</h2>
             <p>
-                19 participants completed 600 trials (five runs of 120 trials); each run resulted in 787 medical 2D images which were converted into 3D datasets. The AFNI (Analysis of Functional Neuroimages; Cox, 1996) data is composed of two files (per trial per participant) containing the voxel numerical values, spatial characteristics of each voxel, and statistical information for each sub-brick. We will merge the files into the NIFTI file which encapsulates both metadata and the actual image data as the final dataset for machine learning in Python.
+                19 participants completed 600 trials (five runs of 120 trials); each run resulted in 787 medical 2D images which were converted into 3D datasets. The AFNI (Analysis of Functional Neuroimages) data is composed of two files (per trial per participant) containing the voxel numerical values, spatial characteristics of each voxel, and statistical information for each sub-brick. We will merge the files into the NIFTI file which encapsulates both metadata and the actual image data as the final dataset for machine learning in Python.
             </p>
             <div class="text-center">
                 <p class="font-weight-bold">Figure 1</p>
@@ -102,8 +102,13 @@
         </section>
 
         <section>
-            <h2 class="mt-4 mb-3">Potential Results and Discussion</h2>
+            <h2 class="mt-4 mb-3">Results and Discussion</h2>
             <ul>
+                <li><b>Data Prepossessing</b>
+                    <ul>
+                        <li>To process fMRI data using AFNI, we first convert DICOM files from each run (run1 to run5) into AFNI’s BRIK/HEAD format using the to3d command, specifying the slice timing information with the time of each scan = 1500 ms, number of images = 785, slice numbers = 29. Next, we apply slice timing and motion correction with the 3dvolreg command, using the -tshift -Fourier option for slice timing correction and the -base option to set the reference volume (111th image in each run) for motion correction, while saving the motion parameters in text files. The 3dToutcount command then computes outlier counts for each volume in the motion-corrected data, using -automask to create a brain mask and -fraction to output the fraction of voxels in the mask that are outliers. Finally, we apply spatial smoothing to the motion-corrected data with the 3dmerge command, using the -1blur_fwhm 4 option to specify a 4mm FWHM Gaussian blur, and transfer the smoothed datasets to NIFTI file for ML data processing.</li>
+                    </ul>
+                </li>
                 <li><b>Quantitative Metrics</b>
                     <ul>
                         <li>Accuracy</li>
@@ -179,10 +184,13 @@
             <h2 class="mt-4 mb-3">References</h2>
             <ul>
                 <li class="ml-4">
-                    Cox, R. W., & Jesmanowicz, A. (1999). Real-time 3D image registration for functional MRI. <i>Magnetic Resonance in Medicine, 42</i>: 1014–1018.
+                    Bell, A. H., Summerfield, C., Morin, E. L., Malecek, N. J. & Ungerleider, L. G. Encoding of Stimulus Probability in Macaque Inferior Temporal Cortex. <i>Curr. Biol</i>. 1–11, https://doi.org/10.1016/j.cub.2016.07.007 (2016).
                 </li>
                 <li class="ml-4">
                     Dunovan, K., & Wheeler, M. E. (2018). Computational and neural signatures of pre and post-sensory expectation bias in inferior temporal cortex. <i>Scientific Reports, 8</i>(1), 13256. <a href="https://doi.org/10.1038/s41598-018-31678-x">https://doi.org/10.1038/s41598-018-31678-x</a>
+                </li>
+                <li class="ml-4">
+                    Kok, P., Failing, M. F. & de Lange, F. P. Prior Expectations Evoke Stimulus Templates in the Primary VisualCortex. J. <i>Cogn. Neurosci. 26</i>, 194–198 (2014).
                 </li>
                 <li class="ml-4">
                     Michel, Vincent, et al. (2011). “A Supervised Clustering Approach for Fmri-Based Inference of Brain States.” <i>Pattern Recognition</i>, Pergamon, <a href="https://www.sciencedirect.com/science/article/pii/S0031320311001439">https://www.sciencedirect.com/science/article/pii/S0031320311001439</a>
