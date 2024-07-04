@@ -34,19 +34,19 @@
                 <tbody>
                     <tr>
                         <td><b>Yuval Mazor</b></td>
-                        <td>Methods, Problem Definition, Model Construction</td>
+                        <td>Methods, Problem Definition,Model Construction</td>
                     </tr>
                     <tr>
                         <td><b>Ruohan Feng</b></td>
-                        <td>Background and Data Description; Data preprocessing</td>
+                        <td>Background and Data Description, Data preprocessing</td>
                     </tr>
                     <tr>
                         <td><b>Jianwei Jia</b></td>
-                        <td>Potential Results and Discussion; Data preprocessing</td>
+                        <td>Potential Results and Discussion, Data preprocessing</td>
                     </tr>
                     <tr>
                         <td><b>Wei-Hsing Huang</b></td>
-                        <td>Methods, Model Construction</td>
+                        <td>Methods, Data Description, Model Construction</td>
                     </tr>
                 </tbody>
             </table>
@@ -128,6 +128,9 @@
                             
                                 <li>b. Slice Timing and Motion Correction: Next, we apply slice timing and motion correction with the 3dvolreg command, using the -tshift -Fourier option for slice timing correction and the -base option to set the reference volume (111th image in each run) for motion correction, while saving the motion parameters in text files.<br><br></li>
                             <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/s8_preproc.sh<br><br></li>
+                            <li><b>Part of the 3D images data visualization after processing:</b> </li>
+                            <li><img src="./public/1st_steps.png" alt="Part of the 3D images data visualization"></li>
+
                         </ul>
                         <li><b>2. Using K-means to do the 2nd step processing for comparation: <br><br></b>
                             <ul>
@@ -144,15 +147,15 @@
 
                 <li><b>ML Algorithms/Models Implemented<br><br></b>
                     <ul>
-                        <li><b>1. Using RNN (Recurrent Neural Network) as the model to train:<br><br></b>
+                        <li><b>1. Using CNN ResNet as the model to train:<br><br></b>
                             
                                 <ul>
                                     <li>
                                         <strong>Model Definition:</strong>
                                         <ul>
-                                            <li>a. Define an RNN model using PyTorch’s <code>nn.Module</code>.</li>
-                                            <li>b. Include an RNN layer to process sequential 3D MRI image data and a fully connected layer to map the RNN's hidden state to 9 output classes.</li>
-                                            <li>c. Use <code>nn.RNN</code> for the recurrent layer in our training, which can be replaced with <code>nn.LSTM</code> or <code>nn.GRU</code> for better performance later for improvement.</li>
+                                            <li>a. Define an CNN resnet model using PyTorch’s torchvisoin.module.</li>
+                                            <li>b. Include CNN layers to process 3D MRI image data and a fully connected layer to map the CNN's hidden state to 9 output classes.</li>
+                                            <li>c. Use resnet18 for the CNN layer in our training, which can be replaced with LSTM or GRU to consider sequential information for better performance later for improvement.</li>
                                         </ul>
                                     </li>
                                     <li>
@@ -165,27 +168,27 @@
                                     <li>
                                         <strong>Data Handling:</strong>
                                         <ul>
-                                            <li>a. Define a custom dataset class to handle 3D MRI data and corresponding labels, transforming them for RNN input.</li>
-                                            <li>b. Clean and preprocess the data, ensuring it is in the correct format for RNN input.</li>
+                                            <li>a. Define a custom dataset class to handle 3D MRI data and corresponding labels, transforming them for CNN input.</li>
+                                            <li>b. Clean and preprocess the data, ensuring it is in the correct format for CNN input.</li>
                                         </ul>
                                     </li>
                                     <li>
                                         <strong>Training and Validation Split:</strong>
                                         <ul>
                                             <li>a. Split the dataset into training and validation sets using an 80% - 20% split ratio.</li>
-                                            <li>b. Use PyTorch's <code>DataLoader</code> to batch and shuffle the training data, ensuring efficient data loading during training.</li>
+                                            <li>b. Use PyTorch's DataLoader to batch and shuffle the training data, ensuring efficient data loading during training.</li>
                                         </ul>
                                     </li>
                                     <li>
                                         <strong>Loss Function and Optimizer:</strong>
                                         <ul>
-                                            <li>a. Use <code>nn.CrossEntropyLoss</code> for multi-class classification.</li>
+                                            <li>a. Use CrossEntropyLoss for multi-class classification.</li>
                                             <li>b. Implement the Adam optimizer with a learning rate of 0.01 and weight decay of 0.001 to avoid the overfitting.</li>
                                             <li>c. Incorporate a learning rate scheduler to dynamically adjust the learning rate during training.</li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <strong>Training Loop:</strong>
+                                        <strong>Training Loop (using 200 epoch for training):</strong>
                                         <ul>
                                             <li>For each epoch, perform:
                                                 <ul>
@@ -219,23 +222,27 @@
         <section>
             <h2 class="mt-4 mb-3">Results and Discussion</h2>
             <ul>
-                <li><b>For the validation data prediction: </b></li>
+                <li><b>For the validation data prediction: </b><br><br></li>
                     <ul>
                         </li>
-                        <li><b>1. Draw the Quantitative Metrics:</b>
+                        <li><b>1. Draw the Confusion Matrix:</b>
                             <ul>
-                                <li></li>
+                                <li><img src="./public/confusion_matrix.png" alt="Confusion matrix"></li>
+                                <li> The confusion Matrix is used to see the relationship between the predict and true result in terms of 9 different picture conditions according to the brain 3D images, which means if we can predict the pictures successfully according to the brain activation.<br><br></li>
+                            </ul></li>
+
+                        <li><b>2. Draw the Quantitative Metrics:</b>
+                            <ul>
+                                <li><img src="./public/quantitative_metrics.png" alt="Quantitative metrics"></li>
+                                    </ul>
+                                    <li><b>Accuracy = 0.15</b></li>
+                                    <li><b>Recall = 0.09</b></li>
+                                    <li><b>Precision = 0.04</b></li>
+                                    <li><b>F1 score = 0.06</b></li>
                             </ul>
                     </ul>
                 </li>
-                <li><b>Quantitative Metrics</b>
-                    <ul>
-                        <li>Accuracy</li>
-                        <li>Recall</li>
-                        <li>Precision</li>
-                        <li>F1 score</li>
-                    </ul>
-                </li>
+
                 <li><b>Project Goals</b>
                     <ul>
                         <li>Confirm what areas of the ITC are activated during the study</li>
@@ -243,10 +250,32 @@
                         <li>Investigate the neural signals corresponding to the subjects' expectations during the pre- and post-sensory stages of decision-making</li>
                     </ul>
                 </li>
-                <li><b>Expected Results</b>
+                <li><b>Expected Results and Current Results<br><br></b>
                     <ul>
-                        <li>Expect brain activation results to align with scientific literature</li>
-                        <li>Find the corresponding brain activity during the pre- and post-sensory stages of decision-making</li>
+                        <li>1. From the confusion matrix, we can see the model’s prediction performance across different categories. Key observations include:<br><br>
+                            <ul>
+                            <li>a. In some picture conditions, such as 0 and 1, have relatively accurate predictions with 6 and 12 correct classifications, respectively.<br><br></li>
+                            <li>b. conditions 4, 5, and 6 have significant misclassifications. For instance, 14 samples of the actual category 5 are misclassified as 1, indicating the model’s poor distinction ability for these categories.<br><br></li>
+                            <li>c. Some conditions, like 3 and 8, have very few correct classifications.<br><br></li>
+                            <b>These classification errors might be due to overlapping features among different categories or imbalanced training data, making it difficult for the model to learn distinct features for certain categories</b><br><br></li>
+                            </ul>
+                        <li>2.From quantitative metrics we know the Accuracy, Recall, Precision, and F1 Score, reflecting the overall performance of the model:<br><br>
+                            <ul>
+                                <li>a. Accuracy (0.15): This low value indicates that the model correctly classifies only 15% of the samples, suggesting it often fails to predict the correct labels.<br><br></li>
+                                <li>b. Recall (0.09): A recall of 0.09 means that only 9% of the actual positive samples are correctly identified. Low recall indicates the model’s poor ability to recognize positive samples.<br><br></li>
+                                <li>c. Precision (0.04): A precision of 0.04 means that only 4% of the samples predicted as a certain category are actually of that category, indicating many false positives.<br><br></li>
+                                <li>d. F1 Score (0.06): The F1 score, which balances precision and recall, is 0.06, further demonstrating the model’s poor performance.<br><br></li>
+                            </ul>
+                            <b>These quantitative metrics reveal that the model’s average performance across all categories is poor. Low accuracy, recall, and precision indicate that the model needs improvement, possibly requiring more training data, better feature engineering, or adjustments will be done for the model architecture later, but generally the FMRI priection accuracy is low both in academic and industry, we will do the further investigate to see if these values are acceptable.</b><br><br></li>
+                    </ul>
+                </li>
+                <li><b>Next step to improve:<br><br></b>
+                    <ul>
+                        <li>1. Data process: Use advance data process techniques to increase sample diversity, helping the model learn more robust features.<br><br></li>
+                           
+                        <li>2. Model Adjustment: Try different model architectures or hyperparameter optimization to enhance the model’s generalization ability.<br><br></li>
+
+                        <li>3. Feature Engineering: Extract more effective features or use new pre-trained models for feature extraction.<br><br></li>
                     </ul>
                 </li>
             </ul>
@@ -277,7 +306,7 @@
                     <div class="timeline-content">
                         <h3 class="timeline-title" style="color: red;">3. Initial Model Construction and Training <br> (Midpoint Report)</h3>
                         <p class="timeline-date">June 25, 2024 - July 03, 2024</p>
-                        <p>Using RNN to do the model training and validation.</p>
+                        <p>Using CNN (ResNet) to do the model training and validation.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
