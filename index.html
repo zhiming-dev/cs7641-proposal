@@ -12,7 +12,7 @@
         }
         li {
             text-align: justify;
-            padding: 0 1em;
+            padding: 0 1;
         }
     </style>
 </head>
@@ -61,7 +61,7 @@
 
         <section>
             <h2 class="mt-4 mb-3">Background and Literature Review:</h2>
-            <p> The data are from a study developed by Dunovan & Wheeler (2018), which investigates the same research question but with a different approach. Previous research found indirect evidence for top-down predictions in the visual cortex, demonstrating that the absence of an anticipated stimulus triggered a stronger response than seeing the anticipated stimulus itself (Kok et al., 2014). However, other studies found that expected faces elicited a larger stimulus-evoked response than unexpected ones (Bell et al., 2016; Tremel et al., 2015). Thus, the current study would follow the same research questions as the previous articles to investigate if the prior expectations could enhance the response to anticipated stimuli.
+            <p> The data are from a study developed by Dunovan & Wheeler (2018), which investigates the same research question but with a different approach. Previous research found indirect evidence for top-down predictions in the visual cortex, demonstrating the absence of an anticipated stimulus triggered a stronger response than seeing the anticipated stimulus itself (Kok et al., 2014). However, other studies found expected faces elicited a larger stimulus-evoked response than unexpected ones (Bell et al., 2016; Tremel et al., 2015). Thus, the current study would follow the same research questions as the previous articles and investigates if the prior expectations could enhance the response to anticipated stimuli.
                 
             </p>
             <div class="text-center">
@@ -95,17 +95,17 @@
                 <img src="./public/4.png" class="img-fluid" alt="Methods - Image 2">
             </div><br><br>
             <ul>
-                <li><b>Unsupervised and Supervised learning methods proposed<br><br></b>
+                <li><b>Unsupervised and Supervised Learning Methods proposed<br><br></b>
                     <ul>
-                        <li>Unsupervised learning method for data processing: <br><br></li>
+                        <li>Unsupervised Learning Methods for Data Processing: <br><br></li>
                             <ul>
                                 <li>K-Means, GMM, DBSCAN etc.<br><br></li>
                             </ul>
                         <li>Supervised learning method for predicting the results: <br><br></li>
                             <ul>
                                 <li>RNN: RNNs are highly effective for processing and analyzing dynamic medical images for time series analysis.<br><br></li>
-                                <li>Transformer: Compared to RNN, transformer uses a self-attention mechanism that can more effectively handle long-range dependencies, while RNNs may lose information or face vanishing gradients in long sequences.<br><br></li>
-                                <li>CNN: Even though CNN is not the best candidate for time series analysis, it is powerful for image tasks. Therefore, we will also apply CNN to our project and compare the performance between CNN, RNN, and transformer.<br><br></li>
+                                <li>Transformer: Compared to RNN, transformers use a self-attention mechanism that can more effectively handle long-range dependencies, while RNNs may lose information or face vanishing gradients in long sequences.<br><br></li>
+                                <li>CNN: Even though CNNs are not the best candidate for time series analysis, they are powerful for image tasks. Therefore, we will also apply CNNs to our project and compare the performance between CNN, RNN, and transformer.<br><br></li>
                             </ul>
                         </li>
                     </ul>
@@ -114,29 +114,29 @@
             <ul>
                 <li><b>Data Processing Method Implemented<br><br></b>
                     <ul>
-                        <li><b>1. Using to3d, 3dvolreg, 3dToutcount and 3dmerge tools in FMRI to do the 1th step processing: <br><br></b>
+                        <li><b>1. Using to3d, 3dvolreg, 3dToutcount and 3dmerge tools in FMRI to do the 1st processing step: <br><br></b>
                         <ul>
-                            <li>a. To process FMRI data using AFNI, we first convert DICOM files from each run (run1 to run5) into AFNI’s BRIK/HEAD format using the to3d command, 
+                            <li>a. To process FMRI data using AFNI, we first converted DICOM files from each run (run1 to run5) into AFNI’s BRIK/HEAD format using the to3d command, 
                                 specifying the slice timing information with the time of each scan = 1500 ms, number of images = 785, slice numbers = 29. 
-                                Next, we apply slice timing and motion correction with the 3dvolreg command, 
+                                Next, we applied slice timing and motion correction with the 3dvolreg command, 
                                 using the -tshift -Fourier option for slice timing correction and the -base option to set the reference volume (111th image in each run) for motion correction, 
                                 while saving the motion parameters in text files. 
-                                The 3dToutcount command then computes outlier counts for each volume in the motion-corrected data, 
-                                using -automask to create a brain mask and -fraction to output the fraction of voxels in the mask that are outliers. 
-                                Finally, we apply spatial smoothing to the motion-corrected data with the 3dmerge command, 
-                                using the -1blur_fwhm 4 option to specify a 4mm FWHM Gaussian blur, and transfer the smoothed datasets to NIFTI file for ML data processing.<br><br></li>
+                                The 3dToutcount command then computed outlier counts for each volume in the motion-corrected data, 
+                                and we used -automask to create a brain mask and -fraction to output the fraction of voxels in the mask that are outliers. 
+                                Finally, we applied spatial smoothing to the motion-corrected data with the 3dmerge command, 
+                                used the -1blur_fwhm 4 option to specify a 4mm FWHM Gaussian blur, and transfered the smoothed datasets to NIFTI file for ML data processing.<br><br></li>
                             
-                                <li>b. Slice Timing and Motion Correction: Next, we apply slice timing and motion correction with the 3dvolreg command, using the -tshift -Fourier option for slice timing correction and the -base option to set the reference volume (111th image in each run) for motion correction, while saving the motion parameters in text files.<br><br></li>
+                                <li>b. Slice Timing and Motion Correction: Next, we applied slice timing and motion correction with the 3dvolreg command, using the -tshift -Fourier option for slice timing correction and the -base option to set the reference volume (111th image in each run) for motion correction, while saving the motion parameters in text files.<br><br></li>
                             <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/s8_preproc.sh<br><br></li>
                         </ul>
-                        <li><b>2. Using K-means to do the 2nd step processing for comparation: <br><br></b>
+                        <li><b>2. Using K-means to do the 2nd processing step: <br><br></b>
                             <ul>
                                 <li>K-means method:<br><br></li>
                                 <ul>
-                                    <li>For 64x64x29x785 image datas, (64x64 is for one grayscale picture, for every data point, we have 29 different these images to construct a 3D brain image, and there are total 785 data points.) we use K-means to do the data processing to remove the background noise of these 3D brain images to get a more accuracy brain region recognition for model training because k-means can be used to cluster the different parts of brain for a giving cluster number and also can be used to remove some noise points.
-                                        50 clusters are initiated and using K-means algorithm to recognize these important brain parts firstly. We choose the 40% nearest points in a fixed distance region with the K clusters central points as our clusters and see the 
-                                        other points which haven't been allocated into these clusters as noise points (like a DBSCAN way). By using this way, we get a more clean dataset and can improve our predict results in 
-                                        the later training model.
+                                    <li>In total we had 64x64x29x785 data points to analyze from the images, (64x64 is for one grayscale picture, for every data point, we have 29 different these images to construct a 3D brain image, and there are total 785 data points). We used K-means to remove the background noise from these 3D brain images to get a more accurate brain region recognition for model training. Our logic was that because k-means can be used to cluster the different parts of brain, if we give it a number of clusters it can be used to remove some noise points.
+                                        First, 50 clusters were initiated and we used the K-means algorithm to recognize important structures. Second, we chose the 40% nearest points in a fixed distance region with the K clusters central points as our clusters and classified the
+                                        other points which haven't been allocated into these clusters as noise points (similar to DBSCAN). This way, we obtained a cleaner dataset and can improve our predicted results in 
+                                        when training the model.
                                     <br><br></li>
                                 </ul>
                                 <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/project.py<br><br></li>
@@ -144,7 +144,7 @@
 
                 <li><b>ML Algorithms/Models Implemented<br><br></b>
                     <ul>
-                        <li><b>1. Using RNN (Recurrent Neural Network) as the model to train:<br><br></b>
+                        <li><b>1. RNN (Recurrent Neural Network):<br><br></b>
                             
                                 <ul>
                                     <li>
@@ -219,7 +219,7 @@
         <section>
             <h2 class="mt-4 mb-3">Results and Discussion</h2>
             <ul>
-                <li><b>For the validation data prediction: </b></li>
+                <li><b>To valide our predictions: </b></li>
                     <ul>
                         </li>
                         <li><b>1. Draw the Quantitative Metrics:</b>
