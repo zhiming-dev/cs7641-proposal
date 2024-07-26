@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group 7 Project Midterm Report</title>
+    <title>Group 7 Project Final Report</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="./styles.css">
     <style>
@@ -19,7 +19,7 @@
 <body>
     <div class="container my-4">
         <div class="text-center mb-4">
-            <h1 class="display-4">Group 7 Project Midterm Report</h1>
+            <h1 class="display-4">Group 7 Project Final Report</h1>
         </div>
 
         <section>
@@ -85,15 +85,33 @@
 
         <section>
             <h2 class="mt-4 mb-3">Methods</h2>
-            <p>
-                We analyzed the fMRI imaging and NIFTI data corresponding to experimental metadata. The .HEAD files and .BRIK files were converted into a pre-processable form using AFNI and then merged into the existing NIFTI files using pandas.
-            </p>
-            <div class="text-center">
-                <img src="./public/3.png" class="img-fluid" alt="Methods - Image 1">
-            </div>
-            <div class="text-center">
-                <img src="./public/4.png" class="img-fluid" alt="Methods - Image 2">
-            </div><br><br>
+            <li><b>Data Preprocessing:<br><br></b>
+                <ul>
+                    <li>To process fMRI data using AFNI, we first convert DICOM files from each run (run1 to run5) into AFNI’s BRIK/HEAD format using the to3d command, specifying the slice timing information with a scan time of 1500 ms, 785 images, and 29 slices. Next, the datasets are deobliqued using 3dWarp to standardize their orientation. Deobliquing is necessary to correct any oblique acquisition angles, ensuring that the data aligns with standard anatomical planes, which facilitates accurate processing and analysis. Then, a mask (fusiform parahippocampal mask) is resampled to match the images using 3dresample, ensuring that the mask and functional images are in the same space for accurate application. After that, we apply slice timing and motion correction with the 3dvolreg command, using the -tshift -Fourier option for slice timing correction and the -base option to set the reference volume (111th image in each run) for motion correction, while saving the motion parameters in text files. Slice timing correction adjusts for differences in acquisition times across slices, motion correction reduces bias due to subject movement, and outlier detection identifies time points with abnormal signal variations. The mask is applied to the motion-corrected images with 3dcalc to focus the analysis on the regions of interest, excluding irrelevant brain regions. Finally, we apply spatial smoothing to the motion-corrected data with the 3dmerge command, using the -1blur_fwhm 8 option to specify an 8mm FWHM Gaussian blur, and transfer the smoothed datasets to NIFTI format for machine learning data processing. </b>
+                    <br></br>
+                </ul> </li>
+
+            <li><b>General Linear Model :<br><br></b>
+                    <ul><li>To process fMRI data using an event-based design matrix, we start by defining key parameters such as the repetition time (TR = 1.5 seconds), the number of slices (29), and the total number of volumes (3925) per run. Frame times for the fMRI scans are calculated based on these parameters. We then load event data from a CSV file (time_event.csv), which includes onset times, durations, and trial types of the events. This event information is crucial for accurately modeling the expected brain responses during the experiment. <br><br></li>
+                    
+                        <li>Using the nilearn.glm.first_level.make_first_level_design_matrix function, we create the design matrix with a polynomial drift model of order 3 to account for low-frequency noise and signal drifts over time. Next, we initialize a first-level GLM model with specified parameters such as the repetition time, slice time reference, and Hemodynamic Response Function (HRF) model using the FirstLevelModel class. The first-level model is then fitted to the combined fMRI image data and the processed design matrix, estimating the parameters of the general linear model that best describe the relationship between the observed fMRI signal and the experimental design.To enhance the analysis, we define a contrast matrix as an identity matrix, which serves as a simple contrast for each condition. Contrasts are used to compare different conditions or to isolate the effect of a specific condition. For each condition, we compute the contrast using the compute_contrast method of the fitted model, producing contrast maps. These maps show regions of the brain where there are statistically significant differences in activation related to the conditions being compared. </li>
+                
+                
+                    </ul><br><br>
+
+
+                <div class="text-center">
+                <figure>
+                    <img src="./public/fmri_image.jpg" class="img-fluid" alt="Methods - Image 1">
+                <figcaption>Figure 2: Contrast map showing the activated and deactivated regions of the brain in the condition 7.</figcaption>
+                </figure><br><br>
+                </div>
+                <div class="text-center">
+                <figure>
+                    <img src="./public/process_procedure.jpg" class="img-fluid" alt="Methods - Image 2">
+                <figcaption>Table 2: fMRI Data Preprocessing Steps with Python Libraries and Functions.</figcaption>
+                </figure>
+                </div>
             <ul>
                 <li><b>Unsupervised and Supervised Learning Methods proposed<br><br></b>
                     <ul>
@@ -103,9 +121,9 @@
                             </ul>
                         <li>Supervised learning method for predicting the results: <br><br></li>
                             <ul>
-                                <li>RNN: RNNs are highly effective for processing and analyzing dynamic medical images for time series analysis.<br><br></li>
-                                <li>Transformer: Compared to RNN, transformers use a self-attention mechanism that can more effectively handle long-range dependencies, while RNNs may lose information or face vanishing gradients in long sequences.<br><br></li>
-                                <li>CNN: Even though CNNs are not the best candidate for time series analysis, they are powerful for image tasks. Therefore, we will also apply CNNs to our project and compare the performance between CNN, RNN, and transformer.<br><br></li>
+                                <li>CNN-ResNet18: ResNet18 is highly effective for analyzing fMRI data due to its deep architecture and residual connections that facilitate learning complex patterns in brain activity.<br><br></li>
+                                <li>CNN-VGG11: VGG11 is useful for fMRI data analysis as its simple yet deep architecture captures detailed spatial features in brain imaging with consistent accuracy.<br><br></li>
+                                <li>CNN-MobileNetV2: MobileNetV2 excels in fMRI applications by providing efficient and accurate brain activity analysis on resource-constrained devices due to its lightweight and optimized design.<br><br></li>
                             </ul>
                         </li>
                     </ul>
@@ -127,12 +145,17 @@
                                 used the -1blur_fwhm 4 option to specify a 4mm FWHM Gaussian blur, and transfered the smoothed datasets to NIFTI file for ML data processing.<br><br></li>
                             
                                 <li>b. Slice Timing and Motion Correction: Next, we applied slice timing and motion correction with the 3dvolreg command, using the -tshift -Fourier option for slice timing correction and the -base option to set the reference volume (111th image in each run) for motion correction, while saving the motion parameters in text files.<br><br></li>
-                            <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/s8_preproc.sh<br><br></li>
+                                
+                                <li>c. Musk implemenation for brain area selection: A mask (fusiform parahippocampal mask) is resampled to match the images using 3dresample, ensuring that the mask and functional images are in the same space for accurate application.</li><br><br>
+                            
+                                <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/s8_preproc.sh (Midterm)<br><br></li>
+                                <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/s13_preproc.sh (Final Project)<br><br></li>
+                                <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/fmri_data_pre.ipynb (Final Project)<br><br></li>
                             <li><b>Part of the 3D images data visualization after processing:</b> </li>
                             <li><img src="./public/1st_steps.png" alt="Part of the 3D images data visualization"></li>
 
                         </ul>
-                        <li><b>2. Using K-means to do the 2nd processing step: <br><br></b>
+                        <li><b>2. Using K-means to do the 2nd processing step (in Midterm Report): <br><br></b>
                             <ul>
                                 <li>K-means method:<br><br></li>
                                 <ul>
@@ -147,7 +170,7 @@
 
                 <li><b>ML Algorithms/Models Implemented<br><br></b>
                     <ul>
-                        <li><b>1. Using CNN ResNet as the model to train:<br><br></b>
+                        <li><b>1. Using CNN-ResNet18 as the model to train:<br><br></b>
                             
                                 <ul>
                                     <li>
@@ -211,7 +234,141 @@
                                     </li>
                                 </ul>
                                 <br><br>
-                        <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/project.py<br><br></li>
+                    </ul>
+
+                    <ul>
+                        <li><b>2. Using CNN-VGG11 as the model to train:<br><br></b>
+                            
+                                <ul>
+                                    <li>
+                                        <strong>Model Definition:</strong>
+                                        <ul>
+                                            <li>a. Define a CNN VGG11 model using PyTorch’s torchvision.models.</li>
+                                            <li>b. Include CNN layers to process 3D fMRI image data and a fully connected layer to map the CNN’s hidden state to XX output classes.</li>
+                                            <li>c. Use VGG11 for the CNN layer in our training, which can be replaced with LSTM or GRU to consider sequential information for better performance later for improvement.</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>Initialization:</strong>
+                                        <ul>
+                                            <li>a. Initialize the hidden state to zeros at the start of each sequence.</li>
+                                            <li>b. Set the model to use GPU if available to speed up training and inference.</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>Data Handling:</strong>
+                                        <ul>
+                                            <li>a. Define a custom dataset class to handle 3D MRI data and corresponding labels, transforming them for CNN input.</li>
+                                            <li>b. Clean and preprocess the data, ensuring it is in the correct format for CNN input.</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>Training and Validation Split:</strong>
+                                        <ul>
+                                            <li>a. Split the dataset into training and validation sets using an 80% - 20% split ratio.</li>
+                                            <li>b. Use PyTorch's DataLoader to batch and shuffle the training data, ensuring efficient data loading during training.</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>Loss Function and Optimizer:</strong>
+                                        <ul>
+                                            <li>a. Use CrossEntropyLoss for multi-class classification.</li>
+                                            <li>b. Implement the Adam optimizer with a learning rate of XX and weight decay of XX to avoid the overfitting.</li>
+                                            <li>c. Incorporate a learning rate scheduler to dynamically adjust the learning rate during training.</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>Training Loop (using XX epoch for training):</strong>
+                                        <ul>
+                                            <li>For each epoch, perform:
+                                                <ul>
+                                                    <li>a. A forward pass to compute predictions.</li>
+                                                    <li>b. Calculate the loss using the defined loss function.</li>
+                                                    <li>c. Backpropagate the loss to compute gradients.</li>
+                                                    <li>d. Update the model parameters using the optimizer.</li>
+                                                </ul>
+                                            </li>
+                                            <li>Track and print training loss and accuracy to monitor performance.</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>Validation Loop:</strong>
+                                        <ul>
+                                            <li>a. Evaluate the model on the validation set without gradient computation.</li>
+                                            <li>b. Calculate and print validation loss and accuracy for each epoch.</li>
+                                            <li>c. The model result evaluation will be present in results and discussion chapter.</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <br><br>
+
+                            <li><b>3. Using CNN-MobileNetV2 as the model to train:<br><br></b>
+                        
+                                <ul>
+                                    <li>
+                                        <strong>Model Definition:</strong>
+                                        <ul>
+                                            <li>a. Define a CNN MobileNetV2 model using PyTorch’s torchvision.models.</li>
+                                            <li>b. Include CNN layers to process 3D fMRI image data and a fully connected layer to map the CNN’s hidden state to XX output classes.</li>
+                                            <li>c. Use MobileNetV2 for the CNN layer in our training, which can be replaced with LSTM or GRU to consider sequential information for better performance later for improvement.</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>Initialization:</strong>
+                                        <ul>
+                                            <li>a. Initialize the hidden state to zeros at the start of each sequence.</li>
+                                            <li>b. Set the model to use GPU if available to speed up training and inference.</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>Data Handling:</strong>
+                                        <ul>
+                                            <li>a. Define a custom dataset class to handle 3D MRI data and corresponding labels, transforming them for CNN input.</li>
+                                            <li>b. Clean and preprocess the data, ensuring it is in the correct format for CNN input.</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>Training and Validation Split:</strong>
+                                        <ul>
+                                            <li>a. Split the dataset into training and validation sets using an 80% - 20% split ratio.</li>
+                                            <li>b. Use PyTorch's DataLoader to batch and shuffle the training data, ensuring efficient data loading during training.</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>Loss Function and Optimizer:</strong>
+                                        <ul>
+                                            <li>a. Use CrossEntropyLoss for multi-class classification.</li>
+                                            <li>b. Implement the Adam optimizer with a learning rate of XX and weight decay of XX to avoid the overfitting.</li>
+                                            <li>c. Incorporate a learning rate scheduler to dynamically adjust the learning rate during training.</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>Training Loop (using XX epoch for training):</strong>
+                                        <ul>
+                                            <li>For each epoch, perform:
+                                                <ul>
+                                                    <li>a. A forward pass to compute predictions.</li>
+                                                    <li>b. Calculate the loss using the defined loss function.</li>
+                                                    <li>c. Backpropagate the loss to compute gradients.</li>
+                                                    <li>d. Update the model parameters using the optimizer.</li>
+                                                </ul>
+                                            </li>
+                                            <li>Track and print training loss and accuracy to monitor performance.</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>Validation Loop:</strong>
+                                        <ul>
+                                            <li>a. Evaluate the model on the validation set without gradient computation.</li>
+                                            <li>b. Calculate and print validation loss and accuracy for each epoch.</li>
+                                            <li>c. The model result evaluation will be present in results and discussion chapter.</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <br><br>
+
+                            
+                        <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/project_1.py (Final)<br><br></li>
                     </ul>
 
 
@@ -225,23 +382,52 @@
                 <li><b>For the validation data prediction: </b><br><br></li>
                     <ul>
                         </li>
-                        <li><b>1. Draw the Confusion Matrix:</b>
-                            <ul>
+                        <li><b>1. Draw the Confusion Matrix for the three Predict Models:</b>
+                            <ul><br><br>
+                                <li><b>Confusion Matrix For CNN-ResNet18:</b></li>
                                 <li><img src="./public/confusion_matrix.png" alt="Confusion matrix"></li>
                                 <li> The confusion Matrix is used to see the relationship between the predict and true result in terms of 9 different picture conditions according to the brain 3D images, which means if we can predict the pictures successfully according to the brain activation.<br><br></li>
-                            </ul></li>
+                            </ul>
+                            <ul><br><br>
+                                <li><b>Confusion Matrix For CNN-VGG11:</b></li>
+                                <li><img src="./public/confusion_matrix.png" alt="Confusion matrix"></li>
+                                <li> The confusion Matrix is used to see the relationship between the predict and true result in terms of 9 different picture conditions according to the brain 3D images, which means if we can predict the pictures successfully according to the brain activation.<br><br></li>
+                            </ul>
+                            <ul><br><br>
+                                <li><b>Confusion Matrix For CNN-MobileNetV2:</b></li>
+                                <li><img src="./public/confusion_matrix.png" alt="Confusion matrix"></li>
+                                <li> The confusion Matrix is used to see the relationship between the predict and true result in terms of 9 different picture conditions according to the brain 3D images, which means if we can predict the pictures successfully according to the brain activation.<br><br></li>
+                            </ul>
+                        </li>
 
-                        <li><b>2. Draw the Quantitative Metrics:</b>
-                            <ul>
+                        <li><b>2. Draw the Quantitative Metrics for the three Predict Models:</b></li>
+                            <ul><br><br>
+                                <li><b>Quantitative Metrics For CNN-ResNet18:</b></li>
                                 <li><img src="./public/quantitative_metrics.png" alt="Quantitative metrics"></li>
-                                    </ul>
                                     <li><b>Accuracy = 0.15</b></li>
                                     <li><b>Recall = 0.09</b></li>
                                     <li><b>Precision = 0.04</b></li>
                                     <li><b>F1 score = 0.06</b></li>
                             </ul>
+                            <ul><br><br>
+                                <li><b>Quantitative Metrics For CNN-VGG11:</b></li>
+                                <li><img src="./public/quantitative_metrics.png" alt="Quantitative metrics"></li>
+                                    <li><b>Accuracy = 0.15</b></li>
+                                    <li><b>Recall = 0.09</b></li>
+                                    <li><b>Precision = 0.04</b></li>
+                                    <li><b>F1 score = 0.06</b></li>
+                            </ul>
+                            <ul><br><br>
+                                <li><b>Quantitative Metrics For CNN-MobileNetV2:</b></li>
+                                <li><img src="./public/quantitative_metrics.png" alt="Quantitative metrics"></li>
+                                    <li><b>Accuracy = 0.15</b></li>
+                                    <li><b>Recall = 0.09</b></li>
+                                    <li><b>Precision = 0.04</b></li>
+                                    <li><b>F1 score = 0.06</b></li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
+                </li><br><br>
 
                 <li><b>Project Goals</b>
                     <ul>
@@ -249,31 +435,61 @@
                         <li>See if we can predict what image was being viewed from the changes in brain activation</li>
                         <li>Investigate the neural signals corresponding to the subjects' expectations during the pre- and post-sensory stages of decision-making</li>
                     </ul>
-                </li>
+                </li><br><br>
                 <li><b>Expected Results and Current Results<br><br></b>
                     <ul>
-                        <li>1. From the confusion matrix, we can see the model’s prediction performance across different categories. Key observations include:<br><br>
+                        <li><b>1.Compared with the three different models:<br><br></b>
                             <ul>
-                            <li>a. In some picture conditions, such as 0 and 1, have relatively accurate predictions with 6 and 12 correct classifications, respectively.<br><br></li>
-                            <li>b. conditions 4, 5, and 6 have significant misclassifications. For instance, 14 samples of the actual category 5 are misclassified as 1, indicating the model’s poor distinction ability for these categories.<br><br></li>
-                            <li>c. Some conditions, like 3 and 8, have very few correct classifications.<br><br></li>
-                            <b>These classification errors might be due to overlapping features among different categories or imbalanced training data, making it difficult for the model to learn distinct features for certain categories</b><br><br></li>
+                                <li>a. Advantages and Disadvantages for CNN-ResNet18: <br><br></li>
+                                <ul>
+                                    <li> Advantages: The shortcut structure makes it easier to train deep networks. It has far fewer parameters than VGG11, and when paired with custom hardware accelerators, it has more potential for real-time edge applications than VGG11. <br><br></li>
+                                    <li> Disadvantages: The shortcut architecture requires specialized hardware architecture to solve memory bound problems. Fortunately, due to the recent popularity of deep learning, many companies (e.g., Google, Meta, Nvidia, AMD…) and even startups have introduced numerous SOCs and ASICs suitable for shortcut operations, making the ResNet architecture very promising for edge applications. However, although the number of parameters has significantly decreased compared to VGG11, it's still too resource-intensive for extremely low-power and low-cost edge devices. Therefore, I also implement MobileNetV2 for this task.<br><br></li>
+                                </ul>
+
+                                <li>b. Advantages and Disadvantages for CNN-VGG11: <br><br></li>
+                                <ul>
+                                    <li> Advantages: No shortcuts required. Since shortcuts need to store previous feature maps, VGG net may have better hardware efficiency on simpler tasks for some hardware devices that are not optimized for hardware architecture, particularly those suffering from memory bottlenecks. <br><br></li>
+                                    <li> Disadvantages: Significantly more parameters than ResNet18, and due to the lack of shortcut structure, it leads to the vanishing gradient problem, resulting in much lower inference accuracy compared to ResNet18.<br><br></li>
+                                </ul>
+
+
+                                <li>c. Advantages and Disadvantages for CNN-MobileNetV2:<br><br></li>
+                                <ul>
+                                    <li> Advantages: MobileNetV2 is a lightweight neural network. At a high level, it combines pointwise convolution and depthwise convolution to significantly reduce the number of parameters while only slightly reducing accuracy. <br><br></li>
+                                    <li> Disadvantages: Although the number of parameters is greatly reduced, the accuracy is lower compared to ResNet18. Therefore, in fields that are very sensitive to accuracy (e.g., medical), MobileNetV2 may not be the best choice.<br><br></li>
+                                </ul>
                             </ul>
-                        <li>2.From quantitative metrics we know the Accuracy, Recall, Precision, and F1 Score, reflecting the overall performance of the model:<br><br>
+
+
+                        <li><b>2. Compared the confusion matrix and quantitative metrics for the three model's prediction performance:</b><br><br></li>
+                            
                             <ul>
-                                <li>a. Accuracy (0.15): This low value indicates that the model correctly classifies only 15% of the samples, suggesting it often fails to predict the correct labels.<br><br></li>
-                                <li>b. Recall (0.09): A recall of 0.09 means that only 9% of the actual positive samples are correctly identified. Low recall indicates the model’s poor ability to recognize positive samples.<br><br></li>
-                                <li>c. Precision (0.04): A precision of 0.04 means that only 4% of the samples predicted as a certain category are actually of that category, indicating many false positives.<br><br></li>
-                                <li>d. F1 Score (0.06): The F1 score, which balances precision and recall, is 0.06, further demonstrating the model’s poor performance.<br><br></li>
+                                <li><b>Three Models Comparation Table:</b></li>
+                                <li style="list-style: none;">
+                                <figure style="display: flex; justify-content: center;">
+                                    <img src="./public/comparation_table.png" alt="Models Comparation Table" style="max-width: 100%;">
+                                </figure>
                             </ul>
-                            <b>These values reveal that the model’s average performance is poor and indicate that the model needs improvement, better feature engineering, and adjustments will be done for the model architecture later, but generally the FMRI priection accuracy is low both in academic and industry, we will do the further investigate to see if these values are acceptable.</b><br><br></li>
+                            
+                            <ul>
+                            <li>a. ResNet18: achieves the best balance between accuracy (85.32%) and parameter count, making it the top-performing model among the three.<br><br></li>
+                            <li>b. MobileNetV2: offers a slightly lower accuracy (82.78%) compared to ResNet18 but excels in having the lowest parameter count, making it suitable for resource-constrained environments.<br><br></li>
+                            <li>c. VGG11: has the lowest accuracy (just 18.3%) and the highest number of parameters, which might not be ideal for applications with limited resources although it has the simplest structure.<br><br></li>
+                            </ul>
+
+                        <li style="color: red;"><b>3. Overall Conclusion:</b><br><br></li>                      
+                            <ul>
+                                <li style="color: red;">a. We have successfully using mask area to confirm what areas of the ITC are activated during the study in data processing stage.<br><br></li>
+                                <li style="color: red;">b. We have successfully using ResNet18 and MobileNetV2 to predict what image was being viewed from the brain activation fMRI images (>80% Accuracy, improving a lot compared with the midterm 20%).<br><br></li>
+                                <li style="color: red;">c. We also try to use time serial model to investigate the neural signals corresponding to the subjects' expectations during the pre- and post-sensory stages of decision-making, but because of the data time content is not enough, the outcome is not good, need to do further investigation.<br><br></li>
+                            </ul>
                     </ul>
                 </li>
-                <li><b>Next step to improve:<br><br></b>
+                <li><b>Further to improve:<br><br></b>
                     <ul>
                         <li>1. Data process: Use advance data process techniques to increase sample diversity, helping the model learn more robust features.<br><br></li>
                            
-                        <li>2. Model Adjustment: Try different model architectures or hyperparameter optimization to enhance the model’s generalization ability.<br><br></li>
+                        <li>2. Model Adjustment: Try different model architectures or hyperparameter optimization to enhance the model's generalization ability.<br><br></li>
 
                         <li>3. Feature Engineering: Extract more effective features or use new pre-trained models for feature extraction.<br><br></li>
                     </ul>
@@ -312,7 +528,7 @@
                 <div class="timeline-item">
                     <div class="timeline-icon"></div>
                     <div class="timeline-content">
-                        <h3 class="timeline-title">4. Advanced Data Process, Model Construction and Training</h3>
+                        <h3 class="timeline-title" style="color: red;">4. Advanced Data Process, Model Construction and Training (Using Mask to do brain area selection and construct the CNN-VGG11 and MobileNetV2).</h3>
                         <p class="timeline-date">July 04, 2024 - July 14, 2024</p>
                         <p>Cleaning and preprocessing the data for analysis.</p>
                     </div>
@@ -320,7 +536,7 @@
                 <div class="timeline-item">
                     <div class="timeline-icon"></div>
                     <div class="timeline-content">
-                        <h3 class="timeline-title">5. Model Improvement and Evaluation <br> (Final Report)</h3>
+                        <h3 class="timeline-title" style="color: red;">5. Model Improvement and Evaluation (Training and using three models to do the prediction.) <br> (Final Report)</h3>
                         <p class="timeline-date">July 15, 2024 - July 23, 2024</p>
                         <p>Training machine learning models on the preprocessed data.</p>
                     </div>
