@@ -165,7 +165,7 @@
                                         when training the model.
                                     <br><br></li>
                                 </ul>
-                                <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/project.py<br><br></li>
+                                <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/project.py (Midterm)<br><br></li>
                     </ul>
 
                 <li><b>ML Algorithms/Models Implemented<br><br></b>
@@ -178,13 +178,13 @@
                                         <ul>
                                             <li>a. Define an CNN resnet model using PyTorch’s torchvisoin.module.</li>
                                             <li>b. Include CNN layers to process 3D MRI image data and a fully connected layer to map the CNN's hidden state to 9 output classes.</li>
-                                            <li>c. Use resnet18 for the CNN layer in our training, which can be replaced with LSTM or GRU to consider sequential information for better performance later for improvement.</li>
+                                            <li>c. Use resnet18 for the CNN layer in our training.</li>
                                         </ul>
                                     </li>
                                     <li>
                                         <strong>Initialization:</strong>
                                         <ul>
-                                            <li>a. Initialize the hidden state to zeros at the start of each sequence.</li>
+                                            <li>a. Use the pretrain model for better initialization.</li>
                                             <li>b. Set the model to use GPU if available to speed up training and inference.</li>
                                         </ul>
                                     </li>
@@ -211,7 +211,7 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <strong>Training Loop (using 200 epoch for training):</strong>
+                                        <strong>Training Loop (using 80 epoch for training):</strong>
                                         <ul>
                                             <li>For each epoch, perform:
                                                 <ul>
@@ -244,14 +244,14 @@
                                         <strong>Model Definition:</strong>
                                         <ul>
                                             <li>a. Define a CNN VGG11 model using PyTorch’s torchvision.models.</li>
-                                            <li>b. Include CNN layers to process 3D fMRI image data and a fully connected layer to map the CNN’s hidden state to XX output classes.</li>
-                                            <li>c. Use VGG11 for the CNN layer in our training, which can be replaced with LSTM or GRU to consider sequential information for better performance later for improvement.</li>
+                                            <li>b. Include CNN layers to process 3D fMRI image data and a fully connected layer to map the CNN’s hidden state to 9 output classes.</li>
+                                            <li>c. Use VGG11 for the CNN layer in our training.</li>
                                         </ul>
                                     </li>
                                     <li>
                                         <strong>Initialization:</strong>
                                         <ul>
-                                            <li>a. Initialize the hidden state to zeros at the start of each sequence.</li>
+                                            <li>a. Use the pretrain model for better initialization.</li>
                                             <li>b. Set the model to use GPU if available to speed up training and inference.</li>
                                         </ul>
                                     </li>
@@ -273,12 +273,12 @@
                                         <strong>Loss Function and Optimizer:</strong>
                                         <ul>
                                             <li>a. Use CrossEntropyLoss for multi-class classification.</li>
-                                            <li>b. Implement the Adam optimizer with a learning rate of XX and weight decay of XX to avoid the overfitting.</li>
+                                            <li>b. Implement the Adam optimizer with a learning rate of 0.01 and weight decay of 0.001 to avoid the overfitting.</li>
                                             <li>c. Incorporate a learning rate scheduler to dynamically adjust the learning rate during training.</li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <strong>Training Loop (using XX epoch for training):</strong>
+                                        <strong>Training Loop (using 80 epoch for training):</strong>
                                         <ul>
                                             <li>For each epoch, perform:
                                                 <ul>
@@ -310,13 +310,13 @@
                                         <ul>
                                             <li>a. Define a CNN MobileNetV2 model using PyTorch’s torchvision.models.</li>
                                             <li>b. Include CNN layers to process 3D fMRI image data and a fully connected layer to map the CNN’s hidden state to XX output classes.</li>
-                                            <li>c. Use MobileNetV2 for the CNN layer in our training, which can be replaced with LSTM or GRU to consider sequential information for better performance later for improvement.</li>
+                                            <li>c. Use MobileNetV2 for the CNN layer in our training.</li>
                                         </ul>
                                     </li>
                                     <li>
                                         <strong>Initialization:</strong>
                                         <ul>
-                                            <li>a. Initialize the hidden state to zeros at the start of each sequence.</li>
+                                            <li>a. Use the pretrain model for better initialization.</li>
                                             <li>b. Set the model to use GPU if available to speed up training and inference.</li>
                                         </ul>
                                     </li>
@@ -338,12 +338,12 @@
                                         <strong>Loss Function and Optimizer:</strong>
                                         <ul>
                                             <li>a. Use CrossEntropyLoss for multi-class classification.</li>
-                                            <li>b. Implement the Adam optimizer with a learning rate of XX and weight decay of XX to avoid the overfitting.</li>
+                                            <li>b. Implement the Adam optimizer with a learning rate of 0.01 and weight decay of 0.001 to avoid the overfitting.</li>
                                             <li>c. Incorporate a learning rate scheduler to dynamically adjust the learning rate during training.</li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <strong>Training Loop (using XX epoch for training):</strong>
+                                        <strong>Training Loop (using 80 epoch for training):</strong>
                                         <ul>
                                             <li>For each epoch, perform:
                                                 <ul>
@@ -369,6 +369,7 @@
 
                             
                         <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/project_1.py (Final)<br><br></li>
+                        <li style="color: red;">Code file: CS7641_fMRI_DL/data_process_code/project_Hugo_ver2.py (Final including plot)<br><br></li>
                     </ul>
 
 
@@ -385,45 +386,43 @@
                         <li><b>1. Draw the Confusion Matrix for the three Predict Models:</b>
                             <ul><br><br>
                                 <li><b>Confusion Matrix For CNN-ResNet18:</b></li>
-                                <li><img src="./public/confusion_matrix.png" alt="Confusion matrix"></li>
-                                <li> The confusion Matrix is used to see the relationship between the predict and true result in terms of 9 different picture conditions according to the brain 3D images, which means if we can predict the pictures successfully according to the brain activation.<br><br></li>
+                                <li><img src="./public/confusion_matrix_resnet.png" alt="Confusion matrix"></li>
                             </ul>
                             <ul><br><br>
                                 <li><b>Confusion Matrix For CNN-VGG11:</b></li>
-                                <li><img src="./public/confusion_matrix.png" alt="Confusion matrix"></li>
-                                <li> The confusion Matrix is used to see the relationship between the predict and true result in terms of 9 different picture conditions according to the brain 3D images, which means if we can predict the pictures successfully according to the brain activation.<br><br></li>
+                                <li><img src="./public/confusion_matrix_vgg11.png" alt="Confusion matrix"></li>
                             </ul>
                             <ul><br><br>
                                 <li><b>Confusion Matrix For CNN-MobileNetV2:</b></li>
-                                <li><img src="./public/confusion_matrix.png" alt="Confusion matrix"></li>
-                                <li> The confusion Matrix is used to see the relationship between the predict and true result in terms of 9 different picture conditions according to the brain 3D images, which means if we can predict the pictures successfully according to the brain activation.<br><br></li>
+                                <li><img src="./public/confusion_matrix_mobilenet.png" alt="Confusion matrix"></li>
                             </ul>
+                            <li> The confusion Matrix is used to see the relationship between the predict and true result in terms of 9 different picture conditions according to the brain 3D images, which means if we can predict the pictures successfully according to the brain activation. From above, we can know the ResNet18 and MobileNetV2 has a better performance.<br><br></li>
                         </li>
 
                         <li><b>2. Draw the Quantitative Metrics for the three Predict Models:</b></li>
                             <ul><br><br>
                                 <li><b>Quantitative Metrics For CNN-ResNet18:</b></li>
-                                <li><img src="./public/quantitative_metrics.png" alt="Quantitative metrics"></li>
-                                    <li><b>Accuracy = 0.15</b></li>
-                                    <li><b>Recall = 0.09</b></li>
-                                    <li><b>Precision = 0.04</b></li>
-                                    <li><b>F1 score = 0.06</b></li>
+                                <li><img src="./public/quantitative_metrics_resnet.png" alt="Quantitative metrics"></li>
+                                    <li><b>Accuracy = 0.85</b></li>
+                                    <li><b>Recall = 0.85</b></li>
+                                    <li><b>Precision = 0.95</b></li>
+                                    <li><b>F1 score = 0.89</b></li>
                             </ul>
                             <ul><br><br>
                                 <li><b>Quantitative Metrics For CNN-VGG11:</b></li>
-                                <li><img src="./public/quantitative_metrics.png" alt="Quantitative metrics"></li>
-                                    <li><b>Accuracy = 0.15</b></li>
-                                    <li><b>Recall = 0.09</b></li>
-                                    <li><b>Precision = 0.04</b></li>
-                                    <li><b>F1 score = 0.06</b></li>
+                                <li><img src="./public/quantitative_metrics_vgg11.png" alt="Quantitative metrics"></li>
+                                    <li><b>Accuracy = 0.28</b></li>
+                                    <li><b>Recall = 0.19</b></li>
+                                    <li><b>Precision = 0.13</b></li>
+                                    <li><b>F1 score = 0.13</b></li>
                             </ul>
                             <ul><br><br>
                                 <li><b>Quantitative Metrics For CNN-MobileNetV2:</b></li>
-                                <li><img src="./public/quantitative_metrics.png" alt="Quantitative metrics"></li>
-                                    <li><b>Accuracy = 0.15</b></li>
-                                    <li><b>Recall = 0.09</b></li>
-                                    <li><b>Precision = 0.04</b></li>
-                                    <li><b>F1 score = 0.06</b></li>
+                                <li><img src="./public/quantitative_metrics_mobilenet.png" alt="Quantitative metrics"></li>
+                                    <li><b>Accuracy = 0.83</b></li>
+                                    <li><b>Recall = 0.82</b></li>
+                                    <li><b>Precision = 0.94</b></li>
+                                    <li><b>F1 score = 0.86</b></li>
                             </ul>
                         </li>
                     </ul>
@@ -431,9 +430,9 @@
 
                 <li><b>Project Goals</b>
                     <ul>
-                        <li>Confirm what areas of the ITC are activated during the study</li>
-                        <li>See if we can predict what image was being viewed from the changes in brain activation</li>
-                        <li>Investigate the neural signals corresponding to the subjects' expectations during the pre- and post-sensory stages of decision-making</li>
+                        <li>Confirm what areas of the ITC are activated during the study. <br><br></li>
+                        <li>See if we can predict what image was being viewed from the changes in brain activation<br><br></li>
+                        <li>Investigate the neural signals corresponding to the subjects' expectations during the pre- and post-sensory stages of decision-making<br><br></li>
                     </ul>
                 </li><br><br>
                 <li><b>Expected Results and Current Results<br><br></b>
@@ -472,9 +471,9 @@
                             </ul>
                             
                             <ul>
-                            <li>a. ResNet18: achieves the best balance between accuracy (85.32%) and parameter count, making it the top-performing model among the three.<br><br></li>
-                            <li>b. MobileNetV2: offers a slightly lower accuracy (82.78%) compared to ResNet18 but excels in having the lowest parameter count, making it suitable for resource-constrained environments.<br><br></li>
-                            <li>c. VGG11: has the lowest accuracy (just 18.3%) and the highest number of parameters, which might not be ideal for applications with limited resources although it has the simplest structure.<br><br></li>
+                            <li>a. ResNet18: achieves the best balance between accuracy (85.39%) and parameter count, making it the top-performing model among the three.<br><br></li>
+                            <li>b. MobileNetV2: offers a slightly lower accuracy (83.29%) compared to ResNet18 but excels in having the lowest parameter count, making it suitable for resource-constrained environments.<br><br></li>
+                            <li>c. VGG11: has the lowest accuracy (just 27.68%) and the highest number of parameters, which might not be ideal for applications with limited resources although it has the simplest structure.<br><br></li>
                             </ul>
 
                         <li style="color: red;"><b>3. Overall Conclusion:</b><br><br></li>                      
